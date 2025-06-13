@@ -5,7 +5,7 @@ public typealias HTTPMethod = Alamofire.HTTPMethod
 public typealias URLConvertible = Alamofire.URLConvertible
 public typealias URLRequestConvertible = Alamofire.URLRequestConvertible
 public typealias RequestHeaders = [String: String]
-public typealias RequestParameters = [String: Any]
+public typealias RequestParameters = [String: any Any & Sendable]
 public typealias ParameterEncoding = Alamofire.ParameterEncoding
 public typealias URLEncoding = Alamofire.URLEncoding
 public typealias JSONEncoding = Alamofire.JSONEncoding
@@ -26,8 +26,7 @@ public enum Uploadable {
     case multipartFormData(MultipartFormData)
 }
 
-public typealias Destination = (_ temporaryURL: URL,
-                                _ response: HTTPURLResponse) -> (destinationURL: URL, options: Alamofire.DownloadRequest.Options)
+public typealias Destination = @Sendable (_ temporaryURL: URL, _ response: HTTPURLResponse) -> (destinationURL: URL, options: Alamofire.DownloadRequest.Options)
 
 public typealias Session = Alamofire.Session
 

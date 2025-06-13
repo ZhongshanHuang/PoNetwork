@@ -11,7 +11,7 @@ public protocol NetworkRequestConvertible {
     /// 路径
     var path: String? { get }
     /// 参数
-    var parameters: [String: Any]? { get }
+    var parameters: [String: any Any & Sendable]? { get }
     /// 参数编码方式
     var parameterEncoding: any ParameterEncoding { get }
     /// 超时时间

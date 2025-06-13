@@ -6,16 +6,16 @@ public typealias DownloadCompletionHandler = @MainActor (DownloadResponse) -> Vo
 
 nonisolated
 public final class HTTPClient: @unchecked Sendable {
-    static let `default`: HTTPClient = HTTPClient()
+    public static let `default`: HTTPClient = HTTPClient()
     
     private let session: Session
     /// 只应用于data和upload request
     private let decisionPiple: [any Decision]
     
-    init(sessionConfig: URLSessionConfiguration = URLSessionConfiguration.af.default,
-         requestAdapter: any RequestAdapter = PassthroughRequestAdapter(),
-         decisionPiple: [any Decision] = [],
-         serverTrustManager: ServerTrustManager? = nil) {
+    public init(sessionConfig: URLSessionConfiguration = URLSessionConfiguration.af.default,
+                requestAdapter: any RequestAdapter = PassthroughRequestAdapter(),
+                decisionPiple: [any Decision] = [],
+                serverTrustManager: ServerTrustManager? = nil) {
         let interceptor = Adapter({ request, _, completion in
             do {
                 let newRequest = try requestAdapter.adapte(request)
@@ -30,7 +30,7 @@ public final class HTTPClient: @unchecked Sendable {
     
     // MARK: - Data
     @discardableResult
-    func send(_ request: DataRequest, decisionPiple: [any Decision]? = nil, completionHandler: @escaping DataCompletionHandler) -> DataRequest {
+    public func send(_ request: DataRequest, decisionPiple: [any Decision]? = nil, completionHandler: @escaping DataCompletionHandler) -> DataRequest {
         let afRequest = session.request(request)
         if let (handler, queue) = request.uploadProgressHandler {
             afRequest.uploadProgress(queue: queue, closure: handler)

@@ -11,7 +11,7 @@ protocol NetworkURLRequestConvertible: URLRequestConvertible {
     /// 路径
     var path: String { get }
     /// 参数
-    var params: [String: Any]? { get }
+    var params: [String: any Any & Sendable]? { get }
     /// 参数编码方式
     var parameterEncoding: any ParameterEncoding { get }
 }
