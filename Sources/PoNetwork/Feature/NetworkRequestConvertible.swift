@@ -25,7 +25,6 @@ public protocol NetworkRequestConvertible {
 
 /// 将参数组装成URLRequest
 public extension NetworkRequestConvertible {
-//    var baseURL: URL { NetworkServerConfig.baseURL }
     var headers: [String: String]? { nil }
     var timeoutInterval: TimeInterval? { nil }
     var uploadable: Uploadable? { nil }
@@ -34,6 +33,9 @@ public extension NetworkRequestConvertible {
         var url = baseURL
         if let path, !path.isEmpty {
             url = baseURL.appendingPathComponent(path)
+        }
+        if let uploadable {
+            return UploadRequest(urlConvertible: url, headers: headers, parameters: parameters, timeoutInterval: timeoutInterval, uploadable: uploadable)
         }
         let dataRequest = DataRequest(urlConvertible: url, method: method, headers: headers, parameters: parameters, parameterEncoding: parameterEncoding, timeoutInterval: timeoutInterval)
         return dataRequest

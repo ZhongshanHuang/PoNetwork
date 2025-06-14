@@ -26,6 +26,7 @@ let package = Package(
                             .enableUpcomingFeature("ExistentialAny"),
                             .enableExperimentalFeature("StrictConcurrency=complete"),
                             .enableUpcomingFeature("InternalImportsByDefault"),
+                            .enableUpcomingFeature("AccessLevelOnImport"),
                             .enableUpcomingFeature("MemberImportVisibility"),
                         ]
         ),

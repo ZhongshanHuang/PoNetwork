@@ -15,7 +15,7 @@ public typealias MultipartFormData = Alamofire.MultipartFormData
 public typealias NetworkError = Alamofire.AFError
 public typealias ServerTrustManager = Alamofire.ServerTrustManager
 
-public enum Uploadable {
+public enum Uploadable: @unchecked Sendable {
     /// Upload from the provided `Data` value.
     case data(Data)
     /// Upload from the provided file `URL`
