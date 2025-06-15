@@ -1,5 +1,5 @@
-import Foundation
-@preconcurrency import Alamofire
+public import Foundation
+@preconcurrency public import Alamofire
 
 public typealias DataCompletionHandler = @MainActor (RawDataResponse) -> Void
 public typealias DownloadCompletionHandler = @MainActor (DownloadResponse) -> Void

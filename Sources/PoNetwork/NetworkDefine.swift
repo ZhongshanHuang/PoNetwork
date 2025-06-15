@@ -1,5 +1,5 @@
-import Foundation
-import Alamofire
+public import Foundation
+public import Alamofire
 
 public typealias HTTPMethod = Alamofire.HTTPMethod
 public typealias URLConvertible = Alamofire.URLConvertible
@@ -29,4 +29,10 @@ public enum Uploadable: @unchecked Sendable {
 public typealias Destination = @Sendable (_ temporaryURL: URL, _ response: HTTPURLResponse) -> (destinationURL: URL, options: Alamofire.DownloadRequest.Options)
 
 public typealias Session = Alamofire.Session
+
+#if swift(>=6.2)
+public typealias DecodableType = Decodable & SendableMetatype
+#else
+public typealias DecodableType = Decodable
+#endif
 

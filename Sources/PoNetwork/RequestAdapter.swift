@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 public protocol RequestAdapter {
     func adapte(_ request: URLRequest) throws -> URLRequest

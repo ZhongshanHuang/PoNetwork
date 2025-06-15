@@ -1,14 +1,14 @@
-import Foundation
-import Alamofire
+public import Foundation
+public import Alamofire
 
-final class BaseDataResponse<T: Decodable>: BaseEmptyDataResponse {
-    var data: T?
+public final class BaseDataResponse<T: Decodable>: BaseEmptyDataResponse {
+    public var data: T?
     
     private enum CodingKeys: CodingKey {
         case data
     }
     
-    required init(from decoder: any Decoder) throws {
+    public required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.data = try container.decodeIfPresent(T.self, forKey: .data)
         try super.init(from: decoder)
@@ -24,9 +24,9 @@ final class BaseDataResponse<T: Decodable>: BaseEmptyDataResponse {
     
 }
 
-class BaseEmptyDataResponse: Decodable {
-    var code: Int?
-    var msg: String?
+public class BaseEmptyDataResponse: Decodable {
+    public var code: Int?
+    public var msg: String?
     
     func generateErrorBySelf() -> NetworkError {
         let innerError = NSError(domain: "poNetwork", code: self.code ?? 0, userInfo: [NSLocalizedDescriptionKey: msg ?? "base response business check error"])

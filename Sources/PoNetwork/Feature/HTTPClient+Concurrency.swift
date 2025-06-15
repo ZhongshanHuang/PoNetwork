@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 extension HTTPClient {
     
@@ -18,7 +18,7 @@ extension HTTPClient {
         return DataTask(request: request, task: task, shouldAutomaticallyCancel: true)
     }
     
-    public func send<T: Decodable & SendableMetatype>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> DataTask<T> {
+    public func send<T: DecodableType>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> DataTask<T> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
@@ -49,7 +49,7 @@ extension HTTPClient {
         return UploadTask(request: request, task: task, shouldAutomaticallyCancel: true)
     }
     
-    public func send<T: Decodable & SendableMetatype>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> UploadTask<T> {
+    public func send<T: DecodableType>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> UploadTask<T> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in

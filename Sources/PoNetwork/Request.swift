@@ -1,5 +1,5 @@
-import Foundation
-import Alamofire
+public import Foundation
+public import Alamofire
 
 // MARK: - Request
 public class Request: URLRequestConvertible, @unchecked Sendable {

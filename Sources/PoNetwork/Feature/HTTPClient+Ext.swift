@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 public typealias DecodedDataCompletionHandler<T> = @MainActor (DecodedDataResponse<T>) -> Void
 
@@ -11,7 +11,7 @@ extension HTTPClient {
     }
     
     @discardableResult
-    public func send<T: Decodable & SendableMetatype>(_ requestConvertible: any NetworkRequestConvertible, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> DataRequest {
+    public func send<T: DecodableType>(_ requestConvertible: any NetworkRequestConvertible, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> DataRequest {
         let dataRequest = requestConvertible.asRequest()
         return send(dataRequest, decisionPiple: decisionPiple) { response in
             self.handleDecodedResponse(response, decodableType: decodableType, businessCodes: businessCodes, completionHandler: completionHandler)
@@ -19,7 +19,7 @@ extension HTTPClient {
     }
     
     @discardableResult
-    public func send<T: Decodable & SendableMetatype>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> DataRequest {
+    public func send<T: DecodableType>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> DataRequest {
         send(request, decisionPiple: decisionPiple) { response in
             self.handleDecodedResponse(response, decodableType: decodableType, businessCodes: businessCodes, completionHandler: completionHandler)
         }
@@ -27,7 +27,7 @@ extension HTTPClient {
     
     // MARK: - Upload
     @discardableResult
-    public func send<T: Decodable & SendableMetatype>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> UploadRequest {
+    public func send<T: DecodableType>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> UploadRequest {
         send(request, decisionPiple: decisionPiple) { response in
             self.handleDecodedResponse(response, decodableType: decodableType, businessCodes: businessCodes, completionHandler: completionHandler)
         }

@@ -1,5 +1,5 @@
-import Foundation
-import Alamofire
+public import Foundation
+public import Alamofire
 
 public struct RetryCountDicision: Decision {
     public let retryLimit: UInt

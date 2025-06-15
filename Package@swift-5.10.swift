@@ -24,7 +24,7 @@ let package = Package(
             swiftSettings: [
                             .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
                             .enableUpcomingFeature("ExistentialAny"),
-                            .enableExperimentalFeature("StrictConcurrency=complete"),
+                            .enableUpcomingFeature("StrictConcurrency=complete"),
                             .enableUpcomingFeature("InternalImportsByDefault"),
                             .enableUpcomingFeature("AccessLevelOnImport"),
                             .enableUpcomingFeature("MemberImportVisibility"),

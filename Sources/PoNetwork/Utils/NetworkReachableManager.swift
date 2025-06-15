@@ -1,5 +1,5 @@
-import Foundation
-import Alamofire
+public import Foundation
+public import Alamofire
 import CoreTelephony
 
 public final class NetworkReachableManager: @unchecked Sendable {

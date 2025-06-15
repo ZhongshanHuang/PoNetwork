@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 final class TaskCancellable : Hashable, @unchecked Sendable {
 
