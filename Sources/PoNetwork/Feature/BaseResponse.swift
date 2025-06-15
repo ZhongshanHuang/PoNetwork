@@ -24,7 +24,7 @@ public final class BaseDataResponse<T: Decodable>: BaseEmptyDataResponse {
     
 }
 
-public class BaseEmptyDataResponse: Decodable {
+public class BaseEmptyDataResponse: Decodable, @unchecked Sendable {
     public var code: Int?
     public var msg: String?
     

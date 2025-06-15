@@ -3,7 +3,7 @@ public import Foundation
 extension HTTPClient {
     
     // MARK: - Data
-    public func send(_ request: DataRequest, decisionPiple: [any Decision]? = nil) -> DataTask<Data?> {
+    public func send(_ request: DataRequest, decisionPiple: [any Decision]? = nil) -> sending DataTask<Data?> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
@@ -18,7 +18,7 @@ extension HTTPClient {
         return DataTask(request: request, task: task, shouldAutomaticallyCancel: true)
     }
     
-    public func send<T: DecodableType>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> DataTask<T> {
+    public func send<T: DecodableType>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> sending DataTask<T> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
@@ -34,7 +34,7 @@ extension HTTPClient {
     }
     
     // MARK: - Upload
-    public func send(_ request: UploadRequest, decisionPiple: [any Decision]? = nil) -> UploadTask<Data?> {
+    public func send(_ request: UploadRequest, decisionPiple: [any Decision]? = nil) -> sending UploadTask<Data?> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
@@ -49,7 +49,7 @@ extension HTTPClient {
         return UploadTask(request: request, task: task, shouldAutomaticallyCancel: true)
     }
     
-    public func send<T: DecodableType>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> UploadTask<T> {
+    public func send<T: DecodableType>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> sending UploadTask<T> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
@@ -65,7 +65,7 @@ extension HTTPClient {
     }
     
     // MARK: - Download
-    public func send(_ request: DownloadRequest) -> DownloadTask {
+    public func send(_ request: DownloadRequest) -> sending DownloadTask {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
