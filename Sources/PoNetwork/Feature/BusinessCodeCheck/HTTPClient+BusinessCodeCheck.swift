@@ -4,19 +4,19 @@ extension HTTPClient {
     
     // MARK: - Data
     @discardableResult
-    public func send<T: DecodableType & BaseEmptyDataResponse>(_ requestConvertible: any NetworkRequestConvertible, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> DataRequest {
+    public func send<T: DecodableType & BaseResponseProtocol>(_ requestConvertible: any NetworkRequestConvertible, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> DataRequest {
         let dataRequest = requestConvertible.asRequest()
         return send(dataRequest, decisionPiple: decisionPiple, baseDecodableType: baseDecodableType, businessCodes: businessCodes, completionHandler: completionHandler)
     }
     
     @discardableResult
-    public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> DataRequest {
+    public func send<T: DecodableType & BaseResponseProtocol>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> DataRequest {
         send(request, decisionPiple: decisionPiple) { [completionHandler] response in
             self.handleDecodedResponse(response, baseDecodableType: baseDecodableType, businessCodes: businessCodes, completionHandler: completionHandler)
         }
     }
     
-    public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200]) -> sending DataTask<T> {
+    public func send<T: DecodableType & BaseResponseProtocol>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200]) -> sending DataTask<T> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
@@ -31,12 +31,12 @@ extension HTTPClient {
         return DataTask(request: request, task: task, shouldAutomaticallyCancel: true)
     }
     
-    public func send<T: DecodableType & BaseEmptyDataResponse>(_ requestConvertible: any NetworkRequestConvertible, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type) -> sending DataTask<T> {
+    public func send<T: DecodableType & BaseResponseProtocol>(_ requestConvertible: any NetworkRequestConvertible, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type) -> sending DataTask<T> {
         let request = requestConvertible.asRequest()
         return send(request, decisionPiple: decisionPiple, baseDecodableType: baseDecodableType)
     }
     
-    public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type) -> sending DataTask<T> {
+    public func send<T: DecodableType & BaseResponseProtocol>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type) -> sending DataTask<T> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
@@ -53,13 +53,13 @@ extension HTTPClient {
     
     // MARK: - Upload
     @discardableResult
-    public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> UploadRequest {
+    public func send<T: DecodableType & BaseResponseProtocol>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> UploadRequest {
         send(request, decisionPiple: decisionPiple) { response in
             self.handleDecodedResponse(response, baseDecodableType: baseDecodableType, businessCodes: businessCodes, completionHandler: completionHandler)
         }
     }
     
-    public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200]) -> sending UploadTask<T> {
+    public func send<T: DecodableType & BaseResponseProtocol>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200]) -> sending UploadTask<T> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
@@ -74,7 +74,7 @@ extension HTTPClient {
         return UploadTask(request: request, task: task, shouldAutomaticallyCancel: true)
     }
     
-    public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type) -> sending UploadTask<T> {
+    public func send<T: DecodableType & BaseResponseProtocol>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type) -> sending UploadTask<T> {
         let task = Task {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
@@ -93,7 +93,7 @@ extension HTTPClient {
 
 extension HTTPClient {
     @MainActor
-    fileprivate func handleDecodedResponse<T: Decodable & BaseEmptyDataResponse>(_ response: RawDataResponse, baseDecodableType: T.Type, businessCodes: [Int]?, completionHandler: DecodedDataCompletionHandler<T>) {
+    fileprivate func handleDecodedResponse<T: Decodable & BaseResponseProtocol>(_ response: RawDataResponse, baseDecodableType: T.Type, businessCodes: [Int]?, completionHandler: DecodedDataCompletionHandler<T>) {
         let decodedResponse = response.decode(of: baseDecodableType)
         switch decodedResponse.result {
         case .success(let baseResponse):
