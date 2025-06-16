@@ -12,8 +12,7 @@ extension HTTPClient {
     @discardableResult
     public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> DataRequest {
         send(request, decisionPiple: decisionPiple) { [completionHandler] response in
-            print(completionHandler)
-//            self.handleDecodedResponse(response, baseDecodableType: baseDecodableType, businessCodes: businessCodes, completionHandler: completionHandler)
+            self.handleDecodedResponse(response, baseDecodableType: baseDecodableType, businessCodes: businessCodes, completionHandler: completionHandler)
         }
     }
     
@@ -32,13 +31,31 @@ extension HTTPClient {
         return DataTask(request: request, task: task, shouldAutomaticallyCancel: true)
     }
     
+    public func send<T: DecodableType & BaseEmptyDataResponse>(_ requestConvertible: any NetworkRequestConvertible, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type) -> sending DataTask<T> {
+        let request = requestConvertible.asRequest()
+        return send(request, decisionPiple: decisionPiple, baseDecodableType: baseDecodableType)
+    }
+    
+    public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type) -> sending DataTask<T> {
+        let task = Task {
+            await withTaskCancellationHandler {
+                await withCheckedContinuation { continuation in
+                    send(request, decisionPiple: decisionPiple, baseDecodableType: baseDecodableType) { response in
+                        continuation.resume(returning: response)
+                    }
+                }
+            } onCancel: {
+                request.cancel()
+            }
+        }
+        return DataTask(request: request, task: task, shouldAutomaticallyCancel: true)
+    }
+    
     // MARK: - Upload
     @discardableResult
     public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type, businessCodes: [Int]? = [200], completionHandler: @escaping DecodedDataCompletionHandler<T>) -> UploadRequest {
         send(request, decisionPiple: decisionPiple) { response in
-            let decodedResponse = response.decode(of: baseDecodableType)
-            completionHandler(decodedResponse)
-//            self.handleDecodedResponse(response, baseDecodableType: baseDecodableType, businessCodes: businessCodes, completionHandler: completionHandler)
+            self.handleDecodedResponse(response, baseDecodableType: baseDecodableType, businessCodes: businessCodes, completionHandler: completionHandler)
         }
     }
     
@@ -47,6 +64,21 @@ extension HTTPClient {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
                     send(request, decisionPiple: decisionPiple, baseDecodableType: baseDecodableType, businessCodes: businessCodes) { response in
+                        continuation.resume(returning: response)
+                    }
+                }
+            } onCancel: {
+                request.cancel()
+            }
+        }
+        return UploadTask(request: request, task: task, shouldAutomaticallyCancel: true)
+    }
+    
+    public func send<T: DecodableType & BaseEmptyDataResponse>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, baseDecodableType: T.Type) -> sending UploadTask<T> {
+        let task = Task {
+            await withTaskCancellationHandler {
+                await withCheckedContinuation { continuation in
+                    send(request, decisionPiple: decisionPiple, baseDecodableType: baseDecodableType) { response in
                         continuation.resume(returning: response)
                     }
                 }
