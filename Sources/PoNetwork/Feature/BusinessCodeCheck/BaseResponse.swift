@@ -1,7 +1,7 @@
-public import Foundation
-public import Alamofire
+import Foundation
+import Alamofire
 
-public final class BaseDataResponse<T: Decodable>: BaseEmptyDataResponse {
+public final class BaseDataResponse<T: Decodable>: BaseEmptyDataResponse, @unchecked Sendable {
     public var data: T?
     
     private enum CodingKeys: CodingKey {

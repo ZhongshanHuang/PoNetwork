@@ -19,7 +19,7 @@ public protocol NetworkRequestConvertible {
     /// 上传结构
     var uploadable: Uploadable? { get }
     
-    /// 不要实现此方法
+    /// 有默认实现，非必要不要实现此方法
     func asRequest() -> DataRequest
 }
 

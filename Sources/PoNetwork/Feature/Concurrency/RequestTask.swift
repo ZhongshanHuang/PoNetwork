@@ -1,87 +1,5 @@
 public import Foundation
 
-extension HTTPClient {
-    
-    // MARK: - Data
-    public func send(_ request: DataRequest, decisionPiple: [any Decision]? = nil) -> sending DataTask<Data?> {
-        let task = Task {
-            await withTaskCancellationHandler {
-                await withCheckedContinuation { continuation in
-                    send(request, decisionPiple: decisionPiple) { response in
-                        continuation.resume(returning: response)
-                    }
-                }
-            } onCancel: {
-                request.cancel()
-            }
-        }
-        return DataTask(request: request, task: task, shouldAutomaticallyCancel: true)
-    }
-    
-    public func send<T: DecodableType>(_ request: DataRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> sending DataTask<T> {
-        let task = Task {
-            await withTaskCancellationHandler {
-                await withCheckedContinuation { continuation in
-                    send(request, decisionPiple: decisionPiple, decodableType: decodableType, businessCodes: businessCodes) { response in
-                        continuation.resume(returning: response)
-                    }
-                }
-            } onCancel: {
-                request.cancel()
-            }
-        }
-        return DataTask(request: request, task: task, shouldAutomaticallyCancel: true)
-    }
-    
-    // MARK: - Upload
-    public func send(_ request: UploadRequest, decisionPiple: [any Decision]? = nil) -> sending UploadTask<Data?> {
-        let task = Task {
-            await withTaskCancellationHandler {
-                await withCheckedContinuation { continuation in
-                    send(request, decisionPiple: decisionPiple) { response in
-                        continuation.resume(returning: response)
-                    }
-                }
-            } onCancel: {
-                request.cancel()
-            }
-        }
-        return UploadTask(request: request, task: task, shouldAutomaticallyCancel: true)
-    }
-    
-    public func send<T: DecodableType>(_ request: UploadRequest, decisionPiple: [any Decision]? = nil, decodableType: T.Type, businessCodes: [Int]? = [200]) -> sending UploadTask<T> {
-        let task = Task {
-            await withTaskCancellationHandler {
-                await withCheckedContinuation { continuation in
-                    send(request, decisionPiple: decisionPiple, decodableType: decodableType, businessCodes: businessCodes) { response in
-                        continuation.resume(returning: response)
-                    }
-                }
-            } onCancel: {
-                request.cancel()
-            }
-        }
-        return UploadTask(request: request, task: task, shouldAutomaticallyCancel: true)
-    }
-    
-    // MARK: - Download
-    public func send(_ request: DownloadRequest) -> sending DownloadTask {
-        let task = Task {
-            await withTaskCancellationHandler {
-                await withCheckedContinuation { continuation in
-                    send(request) { response in
-                        continuation.resume(returning: response)
-                    }
-                }
-            } onCancel: {
-                request.cancel()
-            }
-        }
-        return DownloadTask(request: request, task: task, shouldAutomaticallyCancel: true)
-    }
-    
-}
-
 public struct DataTask<Value> : Sendable {
     /// `DataResponse` produced by the `DataRequest` and its response handler.
     public var response: DataResponse<Value, NetworkError> {
@@ -114,7 +32,7 @@ public struct DataTask<Value> : Sendable {
     private let task: Task<DataResponse<Value, NetworkError>, Never>
     private let shouldAutomaticallyCancel: Bool
 
-    fileprivate init(request: DataRequest, task: Task<DataResponse<Value, NetworkError>, Never>, shouldAutomaticallyCancel: Bool) {
+    init(request: DataRequest, task: Task<DataResponse<Value, NetworkError>, Never>, shouldAutomaticallyCancel: Bool) {
         self.request = request
         self.task = task
         self.shouldAutomaticallyCancel = shouldAutomaticallyCancel
@@ -168,7 +86,7 @@ public struct UploadTask<Value>: Sendable {
     private let task: Task<DataResponse<Value, NetworkError>, Never>
     private let shouldAutomaticallyCancel: Bool
 
-    fileprivate init(request: UploadRequest, task: Task<DataResponse<Value, NetworkError>, Never>, shouldAutomaticallyCancel: Bool) {
+    init(request: UploadRequest, task: Task<DataResponse<Value, NetworkError>, Never>, shouldAutomaticallyCancel: Bool) {
         self.request = request
         self.task = task
         self.shouldAutomaticallyCancel = shouldAutomaticallyCancel
@@ -222,7 +140,7 @@ public struct DownloadTask: Sendable {
     private let request: DownloadRequest
     private let shouldAutomaticallyCancel: Bool
 
-    fileprivate init(request: DownloadRequest, task: Task<DownloadResponse, Never>, shouldAutomaticallyCancel: Bool) {
+    init(request: DownloadRequest, task: Task<DownloadResponse, Never>, shouldAutomaticallyCancel: Bool) {
         self.request = request
         self.task = task
         self.shouldAutomaticallyCancel = shouldAutomaticallyCancel

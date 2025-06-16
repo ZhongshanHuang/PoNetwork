@@ -1,5 +1,5 @@
-public import Foundation
-public import Alamofire
+import Foundation
+import Alamofire
 
 protocol NetworkURLRequestConvertible: URLRequestConvertible {
     /// host，最后面不要以/结尾

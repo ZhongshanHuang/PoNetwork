@@ -1,6 +1,6 @@
 public import Foundation
 
-public protocol RequestAdapter {
+public protocol RequestAdapter: Sendable {
     func adapte(_ request: URLRequest) throws -> URLRequest
 }
 
@@ -14,9 +14,9 @@ public struct PassthroughRequestAdapter: RequestAdapter {
 }
 
 public struct AnyRequestAdapter: RequestAdapter {
-    public let closure: (URLRequest) throws -> URLRequest
+    public let closure: @Sendable (URLRequest) throws -> URLRequest
     
-    public init(closure: @escaping (URLRequest) throws -> URLRequest) {
+    public init(closure: @escaping @Sendable (URLRequest) throws -> URLRequest) {
         self.closure = closure
     }
     

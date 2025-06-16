@@ -1,8 +1,8 @@
 public import Foundation
 @preconcurrency public import Alamofire
 
-public typealias DataCompletionHandler = @MainActor (RawDataResponse) -> Void
-public typealias DownloadCompletionHandler = @MainActor (DownloadResponse) -> Void
+public typealias DataCompletionHandler = @MainActor @Sendable (RawDataResponse) -> Void
+public typealias DownloadCompletionHandler = @MainActor @Sendable (DownloadResponse) -> Void
 
 nonisolated
 public final class HTTPClient: @unchecked Sendable {

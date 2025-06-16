@@ -1,5 +1,5 @@
-public import Foundation
-public import Alamofire
+import Foundation
+import Alamofire
 
 public struct RetryHostDicision: Decision {
     

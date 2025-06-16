@@ -1,4 +1,4 @@
-public import Foundation
+import Foundation
 
 public enum DecisionAction: Sendable {
     case continueNext
