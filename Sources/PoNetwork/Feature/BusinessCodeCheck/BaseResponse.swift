@@ -1,5 +1,5 @@
 import Foundation
-import Alamofire
+public import Alamofire
 
 public protocol BaseResponseProtocol: Decodable, Sendable {
     var code: Int? { get }
